@@ -3,7 +3,7 @@ import IconCheck from "./icons/IconCheck";
 import { forwardRef } from "react";
 //forwardRef is a higher order function that allows you to access the ref of the component
 const TodoItem = forwardRef(({ todo, updateTodo, removeTodo, draggableProvider, ...props }, ref) => {
-    const { id, text, completed } = todo;
+    const { id, tittle, completed } = todo;
     const isCompleted = completed ? 'line-through' : '';
     return (
         <article className="flex gap-4 border-b-gray-400 border-b dark:bg-gray-800 transition" ref={ref} {...props} >
@@ -14,7 +14,7 @@ const TodoItem = forwardRef(({ todo, updateTodo, removeTodo, draggableProvider, 
                 {completed ? <IconCheck /> : ''}
             </button>
 
-            <p className={`text-gray-600 dark:text-gray-300 grow ${isCompleted}`}>{text}</p>
+            <p className={`text-gray-600 dark:text-gray-300 grow ${isCompleted}`}>{tittle}</p>
             <button className="flex-none" onClick={() => removeTodo(id)}><CrossIcon /></button>
         </article>
     );
