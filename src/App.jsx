@@ -52,7 +52,7 @@ const App = () => {
     const createTodo = (title) => {
         const newTodo = {
             id: Date.now(),
-            title: title.trim(),
+            text: title.trim(),
             completed: false
         };
         setTodos([...todos, newTodo]);
