@@ -14,9 +14,34 @@ import { useEffect, useState } from "react";
 ];*/
 const initialStateTodos = JSON.parse(localStorage.getItem('todos')) || [];
 
+const reorder = (list, startIndex, endIndex) => {
+    //copy the list
+    const result = [...list];
+    //remove the item from the list
+    const [removed] = result.splice(startIndex, 1);
+    //insert the removed item at the end index
+    result.splice(endIndex, 0, removed);
+
+    return result;
+};
+
 const App = () => {
+    /* Drag functions */
 
+    const handleDragEnd = (result) => {
+        const { destination, source } = result;
+        if (!destination) return;
+        if (
+            source.index === destination.index &&
+            source.droppableId === destination.droppableId
+        )
+            return;
 
+        setTodos((prevTasks) =>
+            reorder(prevTasks, source.index, destination.index)
+        );
+    }
+    /* end Drag functions */
 
     const [todos, setTodos] = useState(initialStateTodos);
 
@@ -82,7 +107,7 @@ const App = () => {
             <main className="container mx-auto px-4 mt-8 md:max-w-xl">
                 <TodoCreate createTodo={createTodo} />
                 {/* TodoList (TodoItem) TodoUpdate & TodoDelete*/}
-                <TodoList todos={filterTodos()} updateTodo={updateTodo} removeTodo={removeTodo} />
+                <TodoList todos={filterTodos()} updateTodo={updateTodo} removeTodo={removeTodo} handleDragEnd={handleDragEnd} />
                 <TodoComputed computedItemsLeft={computedItemsLeft} clearCompleted={clearCompleted} />
                 <TodoFilter changeFilter={changeFilter} filter={filter} />
             </main>
